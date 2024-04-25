@@ -1,3 +1,44 @@
+"use client"
+
+import React, { useState } from "react"
+import ComapanyListHeader from "./CompanyListHeader";
+import CompanyList from "./CompanyList";
+
 export default function Search() {
-    return <div className="wrapper">검색 페이지입니다.</div>
+    const [keyword, setKeyword] = useState('');
+
+    const handleSearchCompanies = (e: React.MouseEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        console.log(keyword)
+    };
+
+
+    return <div className="wrapper flex flex-col items-center">
+        <div className="w-[800px] h-[100px] pt-[60px] flex flex-row justify-between">
+            <form className="w-[450px] h-[40px]">
+                <input 
+                    type="text" 
+                    value={keyword} onChange={e => setKeyword(e.target.value)} 
+                    placeholder="기업 검색"
+                    className="w-[400px] h-[40px] border border-slate-300" 
+                />
+                <input 
+                    type="submit" 
+                    value="검색" 
+                    onClick={handleSearchCompanies}
+                    className="w-[50px] h-[40px] bg-slate-300 text-sm font-semibold"
+                />
+            </form>
+            <button 
+            className="w-[80px] h-[40px] bg-emerald-600 rounded-md 
+            outline-none text-sm text-white font-semibold
+            hover:bg-emerald-800 focus:bg-emerald-800">기업 추가</button>
+        </div>
+        <div className="mt-[50px]">
+            <ul>
+                <ComapanyListHeader />
+                <CompanyList />
+            </ul>
+        </div>
+    </div>
 }
