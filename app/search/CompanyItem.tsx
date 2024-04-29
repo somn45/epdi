@@ -2,6 +2,7 @@ import { ICompany } from "@/models/Company";
 import Link from "next/link";
 
 export default function CompanyItem({ company }: { company: ICompany }) {
+  console.log(company.workProcess.researchProductionSite.isPass);
   return (
     <li className="w-[700px] h-[20px] mb-[40px] flex">
       <h2 className="w-[120px] text-center">
@@ -17,7 +18,7 @@ export default function CompanyItem({ company }: { company: ICompany }) {
         }`}
       ></p>
       <p
-        className={`w-[150px text-center ${
+        className={`w-[150px] text-center ${
           company.workProcess.researchProductionSite.isPass && "bg-green-500"
         }`}
       ></p>

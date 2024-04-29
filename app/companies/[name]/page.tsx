@@ -1,3 +1,4 @@
+import getCompany from "@/util/get-company";
 import ClientCompanyDetail from "./CompanyDetail";
 import Company from "@/models/Company";
 
@@ -8,10 +9,12 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function CompanyDetail({
+export default async function CompanyDetail({
   params,
 }: {
   params: { name: string };
 }) {
-  return <ClientCompanyDetail name={params.name} />;
+  const company = await getCompany(params.name);
+  console.log(company);
+  return <ClientCompanyDetail company={company} />;
 }

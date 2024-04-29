@@ -19,7 +19,7 @@ export default async function CompanyList() {
     <ul>
       <ComapanyListHeader />
       {companies?.map((company) => (
-        <CompanyItem company={company} />
+        <CompanyItem key={company.name} company={company} />
       ))}
     </ul>
   );

@@ -2,9 +2,16 @@
 
 import DefProductTypeAndCalCriteria from "@/components/DefProductTypeAndCalCriteria";
 import ResearchProductionSite from "@/components/ResearchProductionSite";
+import { ICompany } from "@/models/Company";
 import { useState } from "react";
 
-export default function ClientCompanyDetail({ name }: { name: string }) {
+interface ClientCompanyDetailProps {
+  company: ICompany;
+}
+
+export default function ClientCompanyDetail({
+  company,
+}: ClientCompanyDetailProps) {
   const [currentEdpiContent, setCurrentEdpiContent] = useState(
     "defProductTypeAndCalCriteria"
   );
@@ -14,8 +21,18 @@ export default function ClientCompanyDetail({ name }: { name: string }) {
   };
 
   const epdiItemClickEvent: EpdiItemClickEvent = {
-    defProductTypeAndCalCriteria: <DefProductTypeAndCalCriteria />,
-    researchProductionSite: <ResearchProductionSite />,
+    defProductTypeAndCalCriteria: (
+      <DefProductTypeAndCalCriteria
+        name={decodeURI(company.name)}
+        checked={company.workProcess.defProductTypeAndCalCriteria.isPass}
+      />
+    ),
+    researchProductionSite: (
+      <ResearchProductionSite
+        name={decodeURI(company.name)}
+        checked={company.workProcess.researchProductionSite.isPass}
+      />
+    ),
   };
 
   return (
@@ -25,7 +42,7 @@ export default function ClientCompanyDetail({ name }: { name: string }) {
           기업 환경성적표지인증 상세 정보
         </h1>
         <h2 className="mt-[20px] text-[20px] text-slate-600">
-          {decodeURI(name)}
+          {decodeURI(company.name)}
         </h2>
       </div>
 
@@ -36,7 +53,7 @@ export default function ClientCompanyDetail({ name }: { name: string }) {
               setCurrentEdpiContent("defProductTypeAndCalCriteria")
             }
             className="w-[240px] h-[40px] mb-[20px] bg-white rounded-md
-            flex justify-center items-center
+            flex justify-center items-center cursor-pointer
           "
           >
             제품유형 및 계산기준 정의
@@ -44,7 +61,7 @@ export default function ClientCompanyDetail({ name }: { name: string }) {
           <li
             onClick={() => setCurrentEdpiContent("researchProductionSite")}
             className="w-[240px] h-[40px] mb-[20px] bg-white rounded-md
-            flex justify-center items-center
+            flex justify-center items-center cursor-pointer
           "
           >
             생산현장 조사

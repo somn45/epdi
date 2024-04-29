@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function DefProductTypeAndCalCriteria() {
-  const [checked, setChecked] = useState(false);
+export default function DefProductTypeAndCalCriteria({
+  name,
+  checked,
+}: {
+  name: string;
+  checked: boolean;
+}) {
   const [isFinishWorkProcess, setIsFinishWorkProcess] = useState(false);
-
-  useEffect(() => {
-    setChecked(isFinishWorkProcess);
-  }, [isFinishWorkProcess]);
 
   const handleChangeCheckbox = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -15,9 +16,12 @@ export default function DefProductTypeAndCalCriteria() {
     e.preventDefault();
     const response = await axios.post(
       "http://localhost:3000/api/companies/update",
-      { name: "기업1", defProductTypeAndCalCriteria: isFinishWorkProcess ? false : true }
+      {
+        name,
+        targetProgress: "defProductTypeAndCalCriteria",
+        isFinish: isFinishWorkProcess ? false : true,
+      }
     );
-    console.log(response);
     setIsFinishWorkProcess((isFinishWorkProcess) => !isFinishWorkProcess);
   };
 
