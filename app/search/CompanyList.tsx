@@ -1,47 +1,26 @@
-import Company from "./Company";
+import Company, { ICompany } from "@/models/Company";
+import CompanyItem from "./CompanyItem";
+import connectDB from "@/config/connectDB";
+import ComapanyListHeader from "./CompanyListHeader";
 
-export interface Company {
-  name: string;
-  workProcess: string;
-  defProductTypeAndCalCriteria: boolean;
-  researchProductionSite: boolean;
-}
+export const getCompanies = async () => {
+  try {
+    await connectDB();
+    const companies = await Company.find();
+    return companies;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export const companies = [
-  {
-    name: "사성전자",
-    workProcess: "생산현장 조사",
-    defProductTypeAndCalCriteria: true,
-    researchProductionSite: true,
-  },
-  {
-    name: "사성전자",
-    workProcess: "생산현장 조사",
-    defProductTypeAndCalCriteria: true,
-    researchProductionSite: true,
-  },
-  {
-    name: "사성전자",
-    workProcess: "생산현장 조사",
-    defProductTypeAndCalCriteria: true,
-    researchProductionSite: true,
-  },
-  {
-    name: "사성전자",
-    workProcess: "생산현장 조사",
-    defProductTypeAndCalCriteria: true,
-    researchProductionSite: true,
-  },
-];
-
-export default function CompanyList() {
+export default async function CompanyList() {
+  const companies: ICompany[] | undefined = await getCompanies();
   return (
-    <div>
-      <ul>
-        {companies.map((company) => (
-          <Company company={company} />
-        ))}
-      </ul>
-    </div>
+    <ul>
+      <ComapanyListHeader />
+      {companies?.map((company) => (
+        <CompanyItem company={company} />
+      ))}
+    </ul>
   );
 }

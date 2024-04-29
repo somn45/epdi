@@ -18,23 +18,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-    <header className="w-full h-[80px] border-b-2 border-slate-200">
+        <header className="w-full h-[80px] border-b-2 border-slate-200">
           <nav className="h-full">
             <ul className="h-full flex items-center">
               <li className="w-1/4 text-[1.5rem] font-semibold text-green-400 flex justify-center items-center">
-                <Link href='/'>그리너스 환경성적표지인증</Link>
+                <Link href="/">그리너스 환경성적표지인증</Link>
               </li>
               <li className="w-[240px] text-[1.25rem] font-semibold flex justify-center items-center">
-                <Link href='/search'>기업별 인증 관리</Link>
+                <Link href="/search">기업별 인증 관리</Link>
               </li>
               <li className="w-[160px] text-[1.25rem] font-semibold flex justify-center items-center">
-                <Link href='/calendar'>캘린더</Link>
+                <Link href="/calendar">캘린더</Link>
               </li>
             </ul>
           </nav>
         </header>
         {children}
-        <footer className="w-full h-[30px] bottom-0 bg-slate-200 flex justify-center -translate-y-[100%]">@ 2024 EDPI</footer>
+        <footer className="w-full h-[30px] bottom-0 bg-slate-200 flex justify-center -translate-y-[100%]">
+          @ 2024 EDPI
+        </footer>
       </body>
     </html>
   );

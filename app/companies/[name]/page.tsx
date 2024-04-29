@@ -1,7 +1,8 @@
-import { companies } from "@/app/search/CompanyList";
 import ClientCompanyDetail from "./CompanyDetail";
+import Company from "@/models/Company";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const companies = await Company.find();
   return companies.map((company) => ({
     name: company.name,
   }));
