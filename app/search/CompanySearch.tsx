@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ComapanyListHeader from "./CompanyListHeader";
+import AddCompanyModal from "./AddCompanyModal";
 
 export default function CompanySearchPage({
   children,
@@ -9,6 +10,13 @@ export default function CompanySearchPage({
   children: React.ReactNode;
 }) {
   const [keyword, setKeyword] = useState("");
+  const [showsAddCompanyModal, setShowsAddCompanyModal] = useState(false);
+
+  const handleAddCompany = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setShowsAddCompanyModal(true);
+  };
+
   const handleSearchCompanies = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     console.log(keyword);
@@ -33,6 +41,7 @@ export default function CompanySearchPage({
           />
         </form>
         <button
+          onClick={handleAddCompany}
           className="w-[80px] h-[40px] bg-emerald-600 rounded-md 
         outline-none text-sm text-white font-semibold
         hover:bg-emerald-800 focus:bg-emerald-800"
@@ -41,6 +50,9 @@ export default function CompanySearchPage({
         </button>
       </div>
       <div className="mt-[50px]">{children}</div>
+      {showsAddCompanyModal && (
+        <AddCompanyModal closeModal={() => setShowsAddCompanyModal(false)} />
+      )}
     </div>
   );
 }

@@ -3,11 +3,13 @@ import Link from "next/link";
 
 export default function CompanyItem({ company }: { company: ICompany }) {
   return (
-    <li className="w-[700px] h-[20px] mb-[20px] flex">
+    <li className="w-[700px] h-[20px] mb-[40px] flex">
       <h2 className="w-[120px] text-center">
         <Link href={`/companies/${company.name}`}>{company.name}</Link>
       </h2>
-      <h5 className="w-[180px] px-[20px] text-center">{company.name}</h5>
+      <h5 className="w-[180px] px-[20px] text-center">
+        {company.currentProcess}
+      </h5>
       <p
         className={`w-[250px] text-center ${
           company.workProcess.defProductTypeAndCalCriteria.isPass &&
