@@ -1,26 +1,33 @@
-import Company, { ICompany } from "@/models/Company";
-import CompanyItem from "./CompanyItem";
-import connectDB from "@/config/connectDB";
-import ComapanyListHeader from "./CompanyListHeader";
+'use client';
 
-export const getCompanies = async () => {
-  try {
-    await connectDB();
-    const companies = await Company.find();
-    return companies;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { ICompany } from '@/models/Company';
+import ComapanyListHeader from './CompanyListHeader';
+import CompanyItem from './CompanyItem';
+import { useSearchParams } from 'next/navigation';
 
-export default async function CompanyList() {
-  const companies: ICompany[] | undefined = await getCompanies();
+export default function CompanyList({
+  companies,
+}: {
+  companies: ICompany[] | undefined;
+}) {
+  const searchParams = useSearchParams();
+  const keyword = searchParams.get('keyword');
+
   return (
-    <ul>
+    <ul className="mt-[40px]">
       <ComapanyListHeader />
-      {companies?.map((company) => (
-        <CompanyItem key={company.name} company={company} />
-      ))}
+      {keyword
+        ? companies
+            ?.filter((company) => {
+              const searchRegExp = new RegExp(keyword);
+              return searchRegExp.test(company.name);
+            })
+            .map((company) => (
+              <CompanyItem key={company.name} company={company} />
+            ))
+        : companies?.map((company) => (
+            <CompanyItem key={company.name} company={company} />
+          ))}
     </ul>
   );
 }

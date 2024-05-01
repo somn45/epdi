@@ -1,17 +1,18 @@
-import axios from "axios";
-import { useState } from "react";
+import axios from 'axios';
+import { useState } from 'react';
+import { searchCompanies } from '../lib/actions';
 
 export default function AddCompanyModal({
   closeModal,
 }: {
   closeModal: () => void;
 }) {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
 
   const handleAddCompany = async (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     const response = await axios.post(
-      "http://localhost:3000/api/companies/add",
+      'http://localhost:3000/api/companies/add',
       {
         name,
       }
