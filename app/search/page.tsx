@@ -1,12 +1,7 @@
-import { useState } from 'react';
-import AddCompanyModal from './AddCompanyModal';
 import { fetchCompanies } from '../lib/data';
 import Search from '../ui/companies/search';
 import { ICompany } from '@/models/Company';
-import CompanyItem from './CompanyItem';
-import ComapanyListHeader from './CompanyListHeader';
 import ShowAddCompany from '../ui/button/ShowAddCompany';
-import { useSearchParams } from 'next/navigation';
 import CompanyList from './CompanyList';
 
 export default async function CompanySearch() {
@@ -19,7 +14,7 @@ export default async function CompanySearch() {
         <ShowAddCompany />
       </div>
 
-      <CompanyList companies={companies!} />
+      <CompanyList companies={companies} />
     </div>
   );
 }

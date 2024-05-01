@@ -24,13 +24,13 @@ export default function ClientCompanyDetail({
     defProductTypeAndCalCriteria: (
       <DefProductTypeAndCalCriteria
         name={decodeURI(company.name)}
-        checked={company.workProcess.defProductTypeAndCalCriteria.isPass}
+        checked={company.salesAndInfoStartUp.isPass}
       />
     ),
     researchProductionSite: (
       <ResearchProductionSite
         name={decodeURI(company.name)}
-        checked={company.workProcess.researchProductionSite.isPass}
+        checked={company.collectData.isPass}
       />
     ),
   };
