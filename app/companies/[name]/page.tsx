@@ -2,6 +2,7 @@ import getCompany from '@/util/get-company';
 import ClientCompanyDetail from './CompanyDetail';
 import Company, { ICompany } from '@/models/Company';
 import Detail from '../Detail';
+import { CompanyType } from '@/app/types/company';
 
 export async function generateStaticParams() {
   const companies = await Company.find();
@@ -15,7 +16,8 @@ export default async function CompanyDetail({
 }: {
   params: { name: string };
 }) {
-  const company: ICompany | null = await getCompany(params.name);
+  const company: CompanyType | null = await getCompany(params.name);
+
   console.log(company);
   return <Detail company={company} />;
 }

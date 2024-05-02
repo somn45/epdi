@@ -12,19 +12,15 @@ export interface CompanyType {
   issueCertification: EpdiMainItem;
 }
 
+export interface CompanyTypeWithId extends CompanyType {
+  _id: string;
+}
+
 export interface EpdiMainItem {
   name: string;
   isPass: boolean;
   start?: Date;
   end?: Date;
-  salesAndInfoStartUp: EpdiProcess;
-}
-
-export interface EpdiProcess {
-  name: string;
-  isPass: boolean;
-  start: Date;
-  end: Date;
   subProcess: SubProcess[];
 }
 

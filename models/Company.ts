@@ -1,11 +1,12 @@
-import { CompanyType } from "@/app/types/company";
+import { CompanyType } from '@/app/types/company';
 import mongoose, {
   InferSchemaType,
   Model,
   Schema,
+  Types,
   model,
   models,
-} from "mongoose";
+} from 'mongoose';
 
 export interface ICompany {
   name: string;
@@ -110,38 +111,39 @@ export interface ICompany {
   };
 }
 
-interface CompanyModel extends Model<CompanyType> {}
+interface DBCompany extends CompanyType {
+  _id: mongoose.Types.ObjectId;
+}
+
+interface CompanyModel extends Model<DBCompany> {}
 
 mongoose.connect(
   process.env.NEXT_PUBLIC_MONGO_DB_URL
     ? process.env.NEXT_PUBLIC_MONGO_DB_URL
-    : ""
+    : ''
 );
+
+const detailProcessSchema = new Schema({
+  content: String,
+  checked: Boolean,
+});
 
 const subProcessSchema = new Schema({
   subName: String,
   isPass: Boolean,
+  detail: [detailProcessSchema],
 });
 
-const companySchema = new Schema<CompanyType>({
+const companySchema = new Schema<DBCompany>({
   name: {
     type: String,
-    required: [true, "기업 이름은 필수 요소입니다."],
+    required: [true, '기업 이름은 필수 요소입니다.'],
   },
   image: String,
   isAcquired: Boolean,
   authExpiresIn: Date,
   currentProcess: String,
-  mainProcess: {
-    type: [{ type: String }],
-    default: [
-      "영업 및 착수 안내",
-      "데이터 수집",
-      "인증서 신청",
-      "심사",
-      "인증서 발급",
-    ],
-  },
+  mainProcess: [String],
   salesAndInfoStartUp: {
     name: String,
     isPass: Boolean,
@@ -153,6 +155,6 @@ const companySchema = new Schema<CompanyType>({
 
 const companyModel =
   (models.Company as CompanyModel) ||
-  model<CompanyType, CompanyModel>("Company", companySchema);
+  model<DBCompany, CompanyModel>('Company', companySchema);
 
 export default companyModel;

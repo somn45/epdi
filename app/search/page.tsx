@@ -1,9 +1,9 @@
-import { fetchCompanies } from "../lib/data";
-import Search from "../ui/companies/search";
-import { ICompany } from "@/models/Company";
-import ShowAddCompany from "../ui/button/ShowAddCompany";
-import CompanyList from "./CompanyList";
-import { CompanyType } from "../types/company";
+import { fetchCompanies } from '../lib/data';
+import Search from '../ui/companies/search';
+import { ICompany } from '@/models/Company';
+import ShowAddCompany from '../ui/button/ShowAddCompany';
+import CompanyList from './CompanyList';
+import { CompanyType, CompanyTypeWithId } from '../types/company';
 
 export default async function CompanySearch() {
   const companies: CompanyType[] | undefined = await fetchCompanies();
