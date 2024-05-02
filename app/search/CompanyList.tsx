@@ -1,17 +1,18 @@
-'use client';
+"use client";
 
-import { ICompany } from '@/models/Company';
-import ComapanyListHeader from './CompanyListHeader';
-import CompanyItem from './CompanyItem';
-import { useSearchParams } from 'next/navigation';
+import { ICompany } from "@/models/Company";
+import ComapanyListHeader from "./CompanyListHeader";
+import CompanyItem from "./CompanyItem";
+import { useSearchParams } from "next/navigation";
+import { CompanyType } from "../types/company";
 
 export default function CompanyList({
   companies,
 }: {
-  companies: ICompany[] | undefined;
+  companies: CompanyType[] | undefined;
 }) {
   const searchParams = useSearchParams();
-  const keyword = searchParams.get('keyword');
+  const keyword = searchParams.get("keyword");
 
   return (
     <ul className="mt-[40px]">

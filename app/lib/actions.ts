@@ -1,9 +1,9 @@
-'use server';
+"use server";
 
-import companyModel from '@/models/Company';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import z from 'zod';
+import companyModel from "@/models/Company";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import z from "zod";
 
 const addCompanyFormSchema = z.object({
   name: z.string(),
@@ -13,36 +13,33 @@ const AddCompany = addCompanyFormSchema;
 
 export const addCompany = async (formData: FormData) => {
   const { name } = AddCompany.parse({
-    name: formData.get('name'),
+    name: formData.get("name"),
   });
 
   await companyModel.create({
     name,
-    image: '',
-    currentProcess: '영업 및 착수안내',
+    image: "",
+    currentProcess: "영업 및 착수안내",
     isAcquired: false,
+    mainProcess: [
+      "영업 및 착수 안내",
+      "데이터 수집",
+      "인증서 신청",
+      "심사",
+      "인증서 발급",
+    ],
     salesAndInfoStartUp: {
+      name: "영업 및 착수안내",
       isPass: false,
-      defPurpose: {
-        isPass: false,
-        start: new Date(Date.now() + 1000 * 60 * 60 * 9),
-        process: [],
-      },
-      defScope: {
-        isPass: false,
-        process: [],
-      },
-    },
-    collectData: {
-      isPass: false,
-      analysisListLifeCycle: {
-        isPass: false,
-      },
+      start: new Date(Date.now() + 1000 * 60 * 60 * 9),
+      subProcess: [
+        {
+          subName: "목적 정의",
+          isPass: false,
+        },
+      ],
     },
   });
-
-  revalidatePath('/search');
-  redirect('/search');
 };
 
 const searchFormSchema = z.object({
@@ -53,7 +50,7 @@ const SearchForm = searchFormSchema;
 
 export const searchCompanies = async (formData: FormData) => {
   const { keyword } = SearchForm.parse({
-    keyword: formData.get('keyword'),
+    keyword: formData.get("keyword"),
   });
 
   const encodedKeyword = encodeURI(keyword);

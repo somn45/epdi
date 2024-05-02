@@ -1,7 +1,27 @@
-import { ICompany } from '@/models/Company';
-import EpdiMainItem from '../ui/button/EpdiMainItem';
+"use client";
 
-export default function Detail({ company }: { company: ICompany | null }) {
+import EpdiMainItem from "../ui/button/EpdiMainItem";
+import { CompanyType } from "../types/company";
+import EpdiSubList from "../ui/companies/EpdiSubList";
+import { useState } from "react";
+
+type EpdiMainItemClickEvent = {
+  [key: string]: JSX.Element;
+};
+
+export default function Detail({ company }: { company: CompanyType | null }) {
+  const [curEpdiMainItem, setCurEpdiMainItem] = useState("영업 및 착수안내");
+
+  const epdiMainItemClickEvent: EpdiMainItemClickEvent = {
+    "영업 및 착수 안내": (
+      <EpdiSubList mainItem={company?.salesAndInfoStartUp} />
+    ),
+    "데이터 수집": <EpdiSubList mainItem={company?.collectData} />,
+    "인증서 신청": <EpdiSubList mainItem={company?.applyCertification} />,
+    심사: <EpdiSubList mainItem={company?.audit} />,
+    "인증서 발급": <EpdiSubList mainItem={company?.issueCertification} />,
+  };
+
   return (
     <div className="wrapper flex flex-col items-center">
       <div className="h-[150px] mt-[30px] flex-col items-center">
@@ -13,16 +33,18 @@ export default function Detail({ company }: { company: ICompany | null }) {
         </h2>
 
         <ul className="w-[1000px] mt-[40px] flex items-center">
-          <EpdiMainItem content="영업 및 착수 안내" />
-          <EpdiMainItem content="데이터 수집" />
-          <EpdiMainItem content="인증서 신청" />
-          <EpdiMainItem content="심사" />
-          <EpdiMainItem content="인증서 발행" />
+          {company?.mainProcess.map((processName) => (
+            <EpdiMainItem
+              key={processName}
+              content={processName}
+              onClick={() => setCurEpdiMainItem(processName)}
+            />
+          ))}
         </ul>
       </div>
 
       <div className="w-[1000px]">
-        <div className="w-[300px] flex flex-col"></div>
+        {epdiMainItemClickEvent[curEpdiMainItem]}
       </div>
     </div>
   );

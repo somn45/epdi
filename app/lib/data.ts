@@ -1,5 +1,5 @@
-import connectDB from '@/config/connectDB';
-import companyModel from '@/models/Company';
+import connectDB from "@/config/connectDB";
+import companyModel from "@/models/Company";
 
 export const fetchCompanies = async () => {
   try {
