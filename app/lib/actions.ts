@@ -1,9 +1,11 @@
-'use server';
+"use server";
 
-import companyModel from '@/models/Company';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import z from 'zod';
+import companyModel from "@/models/Company";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import z from "zod";
+import { DEFAULT_EPDI_COMPANY } from "../util/constants";
+import { EpdiDetail } from "../types/company";
 
 const addCompanyFormSchema = z.object({
   name: z.string(),
@@ -13,47 +15,16 @@ const AddCompany = addCompanyFormSchema;
 
 export const addCompany = async (formData: FormData) => {
   const { name } = AddCompany.parse({
-    name: formData.get('name'),
+    name: formData.get("name"),
   });
 
   await companyModel.create({
+    ...DEFAULT_EPDI_COMPANY,
     name,
-    image: '',
-    currentProcess: '영업 및 착수안내',
-    isAcquired: false,
-    mainProcess: [
-      '영업 및 착수 안내',
-      '데이터 수집',
-      '인증서 신청',
-      '심사',
-      '인증서 발급',
-    ],
-    salesAndInfoStartUp: {
-      name: '영업 및 착수안내',
-      isPass: false,
-      start: new Date(Date.now() + 1000 * 60 * 60 * 9),
-      subProcess: [
-        {
-          subName: '목적 정의',
-          isPass: false,
-          detail: [
-            {
-              content: '정의 테스트',
-              checked: false,
-            },
-            {
-              content: '연구결과 테스트',
-              checked: false,
-            },
-          ],
-        },
-        {
-          subName: '범위 정의',
-          isPass: false,
-        },
-      ],
-    },
   });
+
+  revalidatePath("/search");
+  redirect("/search");
 };
 
 const searchFormSchema = z.object({
@@ -64,9 +35,30 @@ const SearchForm = searchFormSchema;
 
 export const searchCompanies = async (formData: FormData) => {
   const { keyword } = SearchForm.parse({
-    keyword: formData.get('keyword'),
+    keyword: formData.get("keyword"),
   });
 
   const encodedKeyword = encodeURI(keyword);
   redirect(`/search?keyword=${encodedKeyword}`);
+};
+
+export const updateCompanyEpdiCheckList = async (
+  companyName: string,
+  mainItem: string,
+  subItem: string,
+  checklist: EpdiDetail[]
+) => {
+  const company = await companyModel.findOne({ name: companyName });
+
+  if (company)
+    company.salesAndInfoStartUp.subProcess =
+      company.salesAndInfoStartUp.subProcess.map((sub) => {
+        return sub.subName === subItem
+          ? { ...sub, detail: checklist }
+          : { ...sub };
+      });
+
+  await company?.save();
+
+  revalidatePath(`/companies/${companyName}`);
 };

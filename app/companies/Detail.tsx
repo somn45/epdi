@@ -14,12 +14,30 @@ export default function Detail({ company }: { company: CompanyType | null }) {
 
   const epdiMainItemClickEvent: EpdiMainItemClickEvent = {
     "영업 및 착수 안내": (
-      <EpdiSubList mainItem={company?.salesAndInfoStartUp} />
+      <EpdiSubList
+        companyName={company!.name}
+        mainItem={company?.salesAndInfoStartUp}
+      />
     ),
-    "데이터 수집": <EpdiSubList mainItem={company?.collectData} />,
-    "인증서 신청": <EpdiSubList mainItem={company?.applyCertification} />,
-    심사: <EpdiSubList mainItem={company?.audit} />,
-    "인증서 발급": <EpdiSubList mainItem={company?.issueCertification} />,
+    "데이터 수집": (
+      <EpdiSubList
+        companyName={company!.name}
+        mainItem={company?.collectData}
+      />
+    ),
+    "인증서 신청": (
+      <EpdiSubList
+        companyName={company!.name}
+        mainItem={company?.applyCertification}
+      />
+    ),
+    심사: <EpdiSubList companyName={company!.name} mainItem={company?.audit} />,
+    "인증서 발급": (
+      <EpdiSubList
+        companyName={company!.name}
+        mainItem={company?.issueCertification}
+      />
+    ),
   };
 
   return (
@@ -43,7 +61,7 @@ export default function Detail({ company }: { company: CompanyType | null }) {
         </ul>
       </div>
 
-      <div className="w-[1000px]">
+      <div className="w-[1000px] h-[600px] flex">
         {epdiMainItemClickEvent[curEpdiMainItem]}
       </div>
     </div>

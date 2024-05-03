@@ -1,12 +1,12 @@
 "use client";
 
+import { CompanyType } from "@/app/types/company";
 import DefProductTypeAndCalCriteria from "@/components/DefProductTypeAndCalCriteria";
 import ResearchProductionSite from "@/components/ResearchProductionSite";
-import { ICompany } from "@/models/Company";
 import { useState } from "react";
 
 interface ClientCompanyDetailProps {
-  company: ICompany;
+  company: CompanyType;
 }
 
 export default function ClientCompanyDetail({

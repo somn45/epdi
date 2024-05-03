@@ -27,6 +27,12 @@ export interface EpdiMainItem {
 export interface SubProcess {
   subName: string;
   isPass: boolean;
+  detail: EpdiDetail[];
+}
+
+export interface EpdiDetail {
+  content: string;
+  checked: boolean;
 }
 
 /*
