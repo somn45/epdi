@@ -3,6 +3,7 @@ import Search from "../ui/companies/search";
 import ShowAddCompany from "../ui/button/ShowAddCompany";
 import CompanyList from "./CompanyList";
 import { CompanyType, CompanyTypeWithId } from "../types/company";
+import { Suspense } from "react";
 
 export default async function CompanySearch() {
   const companies: CompanyType[] | undefined = await fetchCompanies();
@@ -14,7 +15,9 @@ export default async function CompanySearch() {
         <ShowAddCompany />
       </div>
 
-      <CompanyList companies={companies} />
+      <Suspense>
+        <CompanyList companies={companies} />
+      </Suspense>
     </div>
   );
 }
