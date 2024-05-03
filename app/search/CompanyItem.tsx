@@ -1,4 +1,3 @@
-import { ICompany } from "@/models/Company";
 import Link from "next/link";
 import { CompanyType } from "../types/company";
 

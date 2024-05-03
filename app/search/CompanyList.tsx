@@ -1,6 +1,5 @@
 "use client";
 
-import { ICompany } from "@/models/Company";
 import ComapanyListHeader from "./CompanyListHeader";
 import CompanyItem from "./CompanyItem";
 import { useSearchParams } from "next/navigation";
