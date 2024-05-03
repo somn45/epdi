@@ -6,9 +6,11 @@ import { fetchCompanies } from "@/app/lib/data";
 
 export async function generateStaticParams() {
   const companies = await fetchCompanies();
-  return companies?.map((company) => ({
-    name: company.name,
-  }));
+  return companies
+    ? companies.map((company) => ({
+        name: company.name,
+      }))
+    : [{ name: "예시" }];
 }
 
 export default async function CompanyDetail({
