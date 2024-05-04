@@ -1,16 +1,16 @@
-import getCompany from "@/util/get-company";
-import Detail from "../Detail";
-import { CompanyType } from "@/app/types/company";
-import companyModel from "@/models/Company";
-import { fetchCompanies } from "@/app/lib/data";
+import getCompany from '@/util/get-company';
+import Detail from '../Detail';
+import { CompanyType } from '@/app/types/company';
+import companyModel from '@/models/Company';
+import { fetchCompanies } from '@/app/lib/data';
 
 export async function generateStaticParams() {
-  const companies = await fetchCompanies();
+  const companies: CompanyType[] | undefined = await fetchCompanies();
   return companies
     ? companies.map((company) => ({
         name: company.name,
       }))
-    : [{ name: "예시" }];
+    : [{ name: '예시' }];
 }
 
 export default async function CompanyDetail({
@@ -18,6 +18,6 @@ export default async function CompanyDetail({
 }: {
   params: { name: string };
 }) {
-  const company: CompanyType | null = await getCompany(params.name);
+  const company: CompanyType | undefined = await getCompany(params.name);
   return <Detail company={company} />;
 }

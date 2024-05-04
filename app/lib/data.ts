@@ -6,7 +6,7 @@ export const fetchCompanies = async () => {
   noStore();
   try {
     const companies = await companyModel.find().lean();
-    return companies;
+    return JSON.parse(JSON.stringify(companies));
   } catch (error) {
     console.log(error);
   }
