@@ -11,7 +11,9 @@ type EpdiMainItemClickEvent = {
 };
 
 export default function Detail({ company }: { company: CompanyType | null }) {
-  const [curEpdiMainItem, setCurEpdiMainItem] = useState("영업 및 착수안내");
+  const [curEpdiMainItem, setCurEpdiMainItem] = useState(
+    company?.currentProcess ? company.currentProcess : "영업 및 착수 안내"
+  );
 
   const epdiMainItemClickEvent: EpdiMainItemClickEvent = {
     "영업 및 착수 안내": (
@@ -63,8 +65,7 @@ export default function Detail({ company }: { company: CompanyType | null }) {
         <h2 className="text-[20px] text-slate-600">
           {decodeURI(company!.name)}
         </h2>
-
-        <ul className="w-[1000px] h-[50px] mt-[40px] flex items-center">
+        <ul className="w-[1000px] h-[50px] my-[20px] flex items-center">
           {company?.mainProcess.map((processName) => (
             <EpdiMainItem
               key={processName}
@@ -76,7 +77,7 @@ export default function Detail({ company }: { company: CompanyType | null }) {
         </ul>
       </div>
 
-      <div className="w-[1000px] h-[600px] flex">
+      <div className="w-[1000px] h-[600px] mt-[20px] flex">
         {epdiMainItemClickEvent[curEpdiMainItem]}
       </div>
     </div>
