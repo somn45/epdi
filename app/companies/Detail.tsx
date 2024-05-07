@@ -16,25 +16,35 @@ export default function Detail({ company }: { company: CompanyType | null }) {
     "영업 및 착수 안내": (
       <EpdiSubList
         companyName={company!.name}
+        isActive={company?.currentProcess === "영업 및 착수 안내"}
         mainItem={company?.salesAndInfoStartUp}
       />
     ),
     "데이터 수집": (
       <EpdiSubList
         companyName={company!.name}
+        isActive={company?.currentProcess === "데이터 수집"}
         mainItem={company?.collectData}
       />
     ),
     "인증서 신청": (
       <EpdiSubList
         companyName={company!.name}
+        isActive={company?.currentProcess === "인증서 신청"}
         mainItem={company?.applyCertification}
       />
     ),
-    심사: <EpdiSubList companyName={company!.name} mainItem={company?.audit} />,
+    심사: (
+      <EpdiSubList
+        companyName={company!.name}
+        isActive={company?.currentProcess === "심사"}
+        mainItem={company?.audit}
+      />
+    ),
     "인증서 발급": (
       <EpdiSubList
         companyName={company!.name}
+        isActive={company?.currentProcess === "인증서 발급"}
         mainItem={company?.issueCertification}
       />
     ),

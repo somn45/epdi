@@ -50,13 +50,180 @@ export const updateCompanyEpdiCheckList = async (
 ) => {
   const company = await companyModel.findOne({ name: companyName });
 
-  if (company)
+  if (company && mainItem === "영업 및 착수 안내") {
+    // 3차 단계 체크 리스트 업데이트
     company.salesAndInfoStartUp.subProcess =
       company.salesAndInfoStartUp.subProcess.map((sub) => {
         return sub.subName === subItem
           ? { ...sub, detail: checklist }
           : { ...sub };
       });
+
+    // 3차 작업 체크 리스트가 모드 체크일때 2차 작업의 pass 여부 변경
+    const allCheckedEpdiDetailProcesses = checklist.every(
+      (detail) => detail.checked
+    );
+    company.salesAndInfoStartUp.subProcess =
+      company.salesAndInfoStartUp.subProcess.map((sub) => {
+        return sub.subName === subItem
+          ? { ...sub, isPass: allCheckedEpdiDetailProcesses }
+          : { ...sub };
+      });
+
+    // 2차 작업 체크 리스트가 모두 체크일때 메인 작업의 pass 여부 변경
+    const allCheckedEpdiSubProcesses =
+      company.salesAndInfoStartUp.subProcess.every((sub) => sub.isPass);
+
+    if (allCheckedEpdiSubProcesses) {
+      company.currentProcess =
+        company.mainProcess[
+          company.mainProcess.indexOf("영업 및 착수 안내") + 1
+        ];
+      company.salesAndInfoStartUp.end = new Date(
+        Date.now() + 1000 * 60 * 60 * 9
+      );
+      company.collectData.start = new Date(Date.now() + 1000 * 60 * 60 * 9);
+    }
+  }
+
+  if (company && mainItem === "데이터 수집") {
+    // 3차 단계 체크 리스트 업데이트
+    company.collectData.subProcess = company.collectData.subProcess.map(
+      (sub) => {
+        return sub.subName === subItem
+          ? { ...sub, detail: checklist }
+          : { ...sub };
+      }
+    );
+
+    // 3차 작업 체크 리스트가 모드 체크일때 2차 작업의 pass 여부 변경
+    const allCheckedEpdiDetailProcesses = checklist.every(
+      (detail) => detail.checked
+    );
+    company.collectData.subProcess = company.collectData.subProcess.map(
+      (sub) => {
+        return sub.subName === subItem
+          ? { ...sub, isPass: allCheckedEpdiDetailProcesses }
+          : { ...sub };
+      }
+    );
+
+    // 2차 작업 체크 리스트가 모두 체크일때 메인 작업의 pass 여부 변경
+    const allCheckedEpdiSubProcesses = company.collectData.subProcess.every(
+      (sub) => sub.isPass
+    );
+
+    if (allCheckedEpdiSubProcesses) {
+      company.currentProcess =
+        company.mainProcess[company.mainProcess.indexOf("데이터 수집") + 1];
+      company.collectData.end = new Date(Date.now() + 1000 * 60 * 60 * 9);
+      company.applyCertification.start = new Date(
+        Date.now() + 1000 * 60 * 60 * 9
+      );
+    }
+  }
+
+  if (company && mainItem === "인증서 신청") {
+    // 3차 단계 체크 리스트 업데이트
+    company.applyCertification.subProcess =
+      company.applyCertification.subProcess.map((sub) => {
+        return sub.subName === subItem
+          ? { ...sub, detail: checklist }
+          : { ...sub };
+      });
+
+    // 3차 작업 체크 리스트가 모드 체크일때 2차 작업의 pass 여부 변경
+    const allCheckedEpdiDetailProcesses = checklist.every(
+      (detail) => detail.checked
+    );
+    company.applyCertification.subProcess =
+      company.applyCertification.subProcess.map((sub) => {
+        return sub.subName === subItem
+          ? { ...sub, isPass: allCheckedEpdiDetailProcesses }
+          : { ...sub };
+      });
+
+    // 2차 작업 체크 리스트가 모두 체크일때 메인 작업의 pass 여부 변경
+    const allCheckedEpdiSubProcesses =
+      company.applyCertification.subProcess.every((sub) => sub.isPass);
+
+    if (allCheckedEpdiSubProcesses) {
+      company.currentProcess =
+        company.mainProcess[company.mainProcess.indexOf("인증서 신청") + 1];
+      company.applyCertification.end = new Date(
+        Date.now() + 1000 * 60 * 60 * 9
+      );
+      company.audit.start = new Date(Date.now() + 1000 * 60 * 60 * 9);
+    }
+  }
+
+  if (company && mainItem === "심사") {
+    // 3차 단계 체크 리스트 업데이트
+    company.audit.subProcess = company.audit.subProcess.map((sub) => {
+      return sub.subName === subItem
+        ? { ...sub, detail: checklist }
+        : { ...sub };
+    });
+
+    // 3차 작업 체크 리스트가 모드 체크일때 2차 작업의 pass 여부 변경
+    const allCheckedEpdiDetailProcesses = checklist.every(
+      (detail) => detail.checked
+    );
+    company.audit.subProcess = company.audit.subProcess.map((sub) => {
+      return sub.subName === subItem
+        ? { ...sub, isPass: allCheckedEpdiDetailProcesses }
+        : { ...sub };
+    });
+
+    // 2차 작업 체크 리스트가 모두 체크일때 메인 작업의 pass 여부 변경
+    const allCheckedEpdiSubProcesses = company.audit.subProcess.every(
+      (sub) => sub.isPass
+    );
+
+    if (allCheckedEpdiSubProcesses) {
+      company.currentProcess =
+        company.mainProcess[company.mainProcess.indexOf("심사") + 1];
+      company.audit.end = new Date(Date.now() + 1000 * 60 * 60 * 9);
+      company.issueCertification.start = new Date(
+        Date.now() + 1000 * 60 * 60 * 9
+      );
+    }
+  }
+
+  if (company && mainItem === "인증서 발급") {
+    // 3차 단계 체크 리스트 업데이트
+    company.issueCertification.subProcess =
+      company.issueCertification.subProcess.map((sub) => {
+        return sub.subName === subItem
+          ? { ...sub, detail: checklist }
+          : { ...sub };
+      });
+
+    // 3차 작업 체크 리스트가 모드 체크일때 2차 작업의 pass 여부 변경
+    const allCheckedEpdiDetailProcesses = checklist.every(
+      (detail) => detail.checked
+    );
+    company.issueCertification.subProcess =
+      company.issueCertification.subProcess.map((sub) => {
+        return sub.subName === subItem
+          ? { ...sub, isPass: allCheckedEpdiDetailProcesses }
+          : { ...sub };
+      });
+
+    // 2차 작업 체크 리스트가 모두 체크일때 메인 작업의 pass 여부 변경
+    const allCheckedEpdiSubProcesses =
+      company.issueCertification.subProcess.every((sub) => sub.isPass);
+
+    if (allCheckedEpdiSubProcesses) {
+      company.issueCertification.end = new Date(
+        Date.now() + 1000 * 60 * 60 * 9
+      );
+      company.isAcquired = true;
+      company.authExpiresIn = new Date(
+        Date.now() + 1000 * 60 * 60 * 24 * 365 * 3
+      );
+    }
+  }
 
   await company?.save();
 

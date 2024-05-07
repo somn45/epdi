@@ -10,6 +10,7 @@ interface EpdiProcessProps {
   mainName: string;
   subName: string;
   detail: EpdiDetail[];
+  isActive: boolean;
 }
 
 export default function EpdiProcess({
@@ -17,6 +18,7 @@ export default function EpdiProcess({
   mainName,
   subName,
   detail,
+  isActive,
 }: EpdiProcessProps) {
   const [epdidetailCheckList, setEpdidetailCheckList] = useState(detail);
 
@@ -50,6 +52,7 @@ export default function EpdiProcess({
                 value={epdiDetail.content}
                 checked={epdiDetail.checked}
                 onChange={handleChangeCheckList}
+                disabled={!isActive}
               />
               {epdiDetail.content}
             </li>

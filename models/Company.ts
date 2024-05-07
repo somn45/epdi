@@ -56,6 +56,34 @@ const companySchema = new Schema<DBCompany>({
     end: Date,
     subProcess: [subProcessSchema],
   },
+  collectData: {
+    name: String,
+    isPass: Boolean,
+    start: Date,
+    end: Date,
+    subProcess: [subProcessSchema],
+  },
+  applyCertification: {
+    name: String,
+    isPass: Boolean,
+    start: Date,
+    end: Date,
+    subProcess: [subProcessSchema],
+  },
+  audit: {
+    name: String,
+    isPass: Boolean,
+    start: Date,
+    end: Date,
+    subProcess: [subProcessSchema],
+  },
+  issueCertification: {
+    name: String,
+    isPass: Boolean,
+    start: Date,
+    end: Date,
+    subProcess: [subProcessSchema],
+  },
 });
 
 const companyModel =

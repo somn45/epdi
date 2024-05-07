@@ -1,6 +1,6 @@
 export const DEFAULT_EPDI_COMPANY = {
   image: "",
-  currentProcess: "영업 및 착수안내",
+  currentProcess: "영업 및 착수 안내",
   isAcquired: false,
   mainProcess: [
     "영업 및 착수 안내",
@@ -10,7 +10,7 @@ export const DEFAULT_EPDI_COMPANY = {
     "인증서 발급",
   ],
   salesAndInfoStartUp: {
-    name: "영업 및 착수안내",
+    name: "영업 및 착수 안내",
     isPass: false,
     start: new Date(Date.now() + 1000 * 60 * 60 * 9),
     subProcess: [
@@ -83,6 +83,120 @@ export const DEFAULT_EPDI_COMPANY = {
           {
             content: "보고서유형 결정",
             checkewd: false,
+          },
+        ],
+      },
+    ],
+  },
+  collectData: {
+    name: "데이터 수집",
+    isPass: false,
+    subProcess: [
+      {
+        subName: "데이터 수집1",
+        isPass: false,
+        detail: [
+          {
+            content: "활동1",
+            checked: false,
+          },
+          {
+            content: "활동2",
+            checked: false,
+          },
+          {
+            content: "활동3",
+            checked: false,
+          },
+        ],
+      },
+    ],
+  },
+  applyCertification: {
+    name: "인증서 신청",
+    isPass: false,
+    subProcess: [
+      {
+        subName: "인증서 신청1",
+        isPass: false,
+        detail: [
+          {
+            content: "활동1",
+            checked: false,
+          },
+          {
+            content: "활동2",
+            checked: false,
+          },
+          {
+            content: "활동3",
+            checked: false,
+          },
+        ],
+      },
+      {
+        subName: "인증서 신청2",
+        isPass: false,
+        detail: [
+          {
+            content: "활동1",
+            checked: false,
+          },
+          {
+            content: "활동2",
+            checked: false,
+          },
+          {
+            content: "활동3",
+            checked: false,
+          },
+        ],
+      },
+    ],
+  },
+  audit: {
+    name: "심사",
+    isPass: false,
+    subProcess: [
+      {
+        subName: "심사1",
+        isPass: false,
+        detail: [
+          {
+            content: "활동1",
+            checked: false,
+          },
+          {
+            content: "활동2",
+            checked: false,
+          },
+          {
+            content: "활동3",
+            checked: false,
+          },
+        ],
+      },
+    ],
+  },
+  issueCertification: {
+    name: "인증서 발급",
+    isPass: false,
+    subProcess: [
+      {
+        subName: "인증서 발급1",
+        isPass: false,
+        detail: [
+          {
+            content: "활동1",
+            checked: false,
+          },
+          {
+            content: "활동2",
+            checked: false,
+          },
+          {
+            content: "활동3",
+            checked: false,
           },
         ],
       },

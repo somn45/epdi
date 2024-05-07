@@ -4,11 +4,13 @@ import EpdiProcess from "./EpdiProcess";
 
 interface EpdiSubListProps {
   companyName: string;
+  isActive: boolean;
   mainItem?: EpdiMainItem;
 }
 
 export default function EpdiSubList({
   companyName,
+  isActive,
   mainItem,
 }: EpdiSubListProps) {
   const [curEpdiSubItem, setCurEpdiSubItem] = useState(
@@ -23,7 +25,12 @@ export default function EpdiSubList({
         </h1>
         <ul>
           {mainItem?.subProcess.map((sub) => (
-            <li key={sub.subName} className="mb-[20px]">
+            <li
+              key={sub.subName}
+              className={`mb-[20px] ${
+                sub.isPass ? "text-green-500 font-semibold" : "text-black"
+              }`}
+            >
               <button
                 value={sub.subName}
                 onClick={() => setCurEpdiSubItem(sub.subName)}
@@ -44,6 +51,7 @@ export default function EpdiSubList({
               mainName={mainItem.name}
               subName={sub.subName}
               detail={sub.detail}
+              isActive={isActive}
             />
           ))}
       </div>
