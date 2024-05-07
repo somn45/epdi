@@ -237,3 +237,67 @@ export const updateCompanyEpdiCheckList = async (
 
   revalidatePath(`/companies/${companyName}`);
 };
+
+const addEpdiDetailSchema = z.object({
+  name: z.string(),
+  mainItem: z.string(),
+  subName: z.string(),
+  content: z.string(),
+});
+
+const addEpdiDetailForm = addEpdiDetailSchema;
+
+export const addEpdiDetail = async (formData: FormData) => {
+  const { name, mainItem, subName, content } = addEpdiDetailForm.parse({
+    name: formData.get("name"),
+    mainItem: formData.get("mainItem"),
+    subName: formData.get("subName"),
+    content: formData.get("content"),
+  });
+
+  const company = await companyModel.findOne({ name });
+
+  if (company && mainItem === "영업 및 착수 안내") {
+    company.salesAndInfoStartUp.subProcess =
+      company?.salesAndInfoStartUp.subProcess.map((sub) =>
+        sub.subName === subName
+          ? { ...sub, detail: [...sub.detail, { content, checked: false }] }
+          : { ...sub }
+      );
+  }
+  if (company && mainItem === "데이터 수집") {
+    company.collectData.subProcess = company?.collectData.subProcess.map(
+      (sub) =>
+        sub.subName === subName
+          ? { ...sub, detail: [...sub.detail, { content, checked: false }] }
+          : { ...sub }
+    );
+  }
+  if (company && mainItem === "인증서 신청") {
+    company.applyCertification.subProcess =
+      company?.applyCertification.subProcess.map((sub) =>
+        sub.subName === subName
+          ? { ...sub, detail: [...sub.detail, { content, checked: false }] }
+          : { ...sub }
+      );
+  }
+  if (company && mainItem === "심사") {
+    company.audit.subProcess = company?.audit.subProcess.map((sub) =>
+      sub.subName === subName
+        ? { ...sub, detail: [...sub.detail, { content, checked: false }] }
+        : { ...sub }
+    );
+  }
+  if (company && mainItem === "인증서 발급") {
+    company.issueCertification.subProcess =
+      company?.issueCertification.subProcess.map((sub) =>
+        sub.subName === subName
+          ? { ...sub, detail: [...sub.detail, { content, checked: false }] }
+          : { ...sub }
+      );
+  }
+
+  await company?.save();
+
+  revalidatePath(`/companies/${name}`);
+};

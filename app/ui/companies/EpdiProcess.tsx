@@ -1,6 +1,6 @@
 "use client";
 
-import { updateCompanyEpdiCheckList } from "@/app/lib/actions";
+import { addEpdiDetail, updateCompanyEpdiCheckList } from "@/app/lib/actions";
 import { EpdiDetail } from "@/app/types/company";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -42,6 +42,13 @@ export default function EpdiProcess({
 
   return (
     <li className="p-[30px] list-none">
+      <form action={addEpdiDetail} className="mb-[30px]">
+        <input type="text" name="content" />
+        <input type="text" name="name" value={companyName} hidden />
+        <input type="text" name="mainItem" value={mainName} hidden />
+        <input type="text" name="subName" value={subName} hidden />
+        <input type="submit" value="세부사항 추가" />
+      </form>
       <form action={updateCompanyEpdiDetail}>
         <ul>
           {epdidetailCheckList.map((epdiDetail) => (
