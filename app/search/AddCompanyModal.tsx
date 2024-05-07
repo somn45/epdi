@@ -38,13 +38,17 @@ export default function AddCompanyModal({
             X
           </button>
         </div>
-        <form action={addCompany}>
+        <form action={addCompany} className="flex-col">
           <input
             type="text"
             name="name"
             placeholder="기업명"
             className="w-[320px] h-[40px] bg-green-200"
           />
+          <div className="my-[10px]">
+            <label>인증 유효 날짜 선택</label>
+            <input type="date" name="authExpiresIn" />
+          </div>
           <input
             type="submit"
             value="기업 추가"

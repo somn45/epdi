@@ -9,18 +9,21 @@ import { EpdiDetail } from "../types/company";
 
 const addCompanyFormSchema = z.object({
   name: z.string(),
+  authExpiresIn: z.string(),
 });
 
 const AddCompany = addCompanyFormSchema;
 
 export const addCompany = async (formData: FormData) => {
-  const { name } = AddCompany.parse({
+  const { name, authExpiresIn } = AddCompany.parse({
     name: formData.get("name"),
+    authExpiresIn: formData.get("authExpiresIn"),
   });
 
   await companyModel.create({
     ...DEFAULT_EPDI_COMPANY,
     name,
+    authExpiresIn: new Date(authExpiresIn),
   });
 
   revalidatePath("/search");
