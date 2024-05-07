@@ -3,7 +3,7 @@ import { useState } from "react";
 import EpdiProcess from "./EpdiProcess";
 
 interface EpdiSubListProps {
-  companyName: string;
+  companyName?: string;
   isActive: boolean;
   mainItem?: EpdiMainItem;
 }
@@ -48,7 +48,7 @@ export default function EpdiSubList({
           .map((sub) => (
             <EpdiProcess
               key={sub.subName}
-              companyName={companyName}
+              companyName={companyName ? companyName : ""}
               mainName={mainItem.name}
               subName={sub.subName}
               detail={sub.detail}
