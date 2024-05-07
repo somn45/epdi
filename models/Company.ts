@@ -1,4 +1,4 @@
-import { CompanyType, EpdiDetail, SubProcess } from "@/app/types/company";
+import { CompanyType, EpdiDetail, SubProcess } from '@/app/types/company';
 import mongoose, {
   InferSchemaType,
   Model,
@@ -6,7 +6,7 @@ import mongoose, {
   Types,
   model,
   models,
-} from "mongoose";
+} from 'mongoose';
 
 interface DBCompany extends CompanyType {
   _id: mongoose.Types.ObjectId;
@@ -25,7 +25,7 @@ interface DBDetailProcess extends EpdiDetail {
 mongoose.connect(
   process.env.NEXT_PUBLIC_MONGO_DB_URL
     ? process.env.NEXT_PUBLIC_MONGO_DB_URL
-    : ""
+    : ''
 );
 
 const detailProcessSchema = new Schema<DBDetailProcess>({
@@ -42,7 +42,7 @@ const subProcessSchema = new Schema<DBSubProcess>({
 const companySchema = new Schema<DBCompany>({
   name: {
     type: String,
-    required: [true, "기업 이름은 필수 요소입니다."],
+    required: [true, '기업 이름은 필수 요소입니다.'],
   },
   image: String,
   isAcquired: Boolean,
@@ -51,6 +51,15 @@ const companySchema = new Schema<DBCompany>({
   mainProcess: [String],
   salesAndInfoStartUp: {
     name: String,
+    value: String,
+    isPass: Boolean,
+    start: Date,
+    end: Date,
+    subProcess: [subProcessSchema],
+  },
+  collectData: {
+    name: String,
+    value: String,
     isPass: Boolean,
     start: Date,
     end: Date,
@@ -60,6 +69,6 @@ const companySchema = new Schema<DBCompany>({
 
 const companyModel =
   (models.Company as CompanyModel) ||
-  model<DBCompany, CompanyModel>("Company", companySchema);
+  model<DBCompany, CompanyModel>('Company', companySchema);
 
 export default companyModel;

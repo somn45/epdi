@@ -1,40 +1,50 @@
-"use client";
+'use client';
 
-import EpdiMainItem from "../ui/button/EpdiMainItem";
-import { CompanyType } from "../types/company";
-import EpdiSubList from "../ui/companies/EpdiSubList";
-import { useState } from "react";
+import EpdiMainItem from '../ui/button/EpdiMainItem';
+import { CompanyType } from '../types/company';
+import EpdiSubList from '../ui/companies/EpdiSubList';
+import { useState } from 'react';
 
 type EpdiMainItemClickEvent = {
   [key: string]: JSX.Element;
 };
 
-export default function Detail({ company }: { company: CompanyType | null }) {
-  const [curEpdiMainItem, setCurEpdiMainItem] = useState("영업 및 착수안내");
+export default function Detail({ company }: { company?: CompanyType }) {
+  const [curEpdiMainItem, setCurEpdiMainItem] = useState('영업 및 착수 안내');
 
   const epdiMainItemClickEvent: EpdiMainItemClickEvent = {
-    "영업 및 착수 안내": (
+    '영업 및 착수 안내': (
       <EpdiSubList
         companyName={company!.name}
+        isActive={curEpdiMainItem === company?.currentProcess}
         mainItem={company?.salesAndInfoStartUp}
       />
     ),
-    "데이터 수집": (
+    '데이터 수집': (
       <EpdiSubList
         companyName={company!.name}
+        isActive={curEpdiMainItem === company?.currentProcess}
         mainItem={company?.collectData}
       />
     ),
-    "인증서 신청": (
+    '인증서 신청': (
       <EpdiSubList
         companyName={company!.name}
+        isActive={curEpdiMainItem === company?.currentProcess}
         mainItem={company?.applyCertification}
       />
     ),
-    심사: <EpdiSubList companyName={company!.name} mainItem={company?.audit} />,
-    "인증서 발급": (
+    심사: (
       <EpdiSubList
         companyName={company!.name}
+        isActive={curEpdiMainItem === company?.currentProcess}
+        mainItem={company?.audit}
+      />
+    ),
+    '인증서 발급': (
+      <EpdiSubList
+        companyName={company!.name}
+        isActive={curEpdiMainItem === company?.currentProcess}
         mainItem={company?.issueCertification}
       />
     ),

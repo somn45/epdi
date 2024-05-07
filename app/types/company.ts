@@ -18,6 +18,7 @@ export interface CompanyTypeWithId extends CompanyType {
 
 export interface EpdiMainItem {
   name: string;
+  value: string;
   isPass: boolean;
   start?: Date;
   end?: Date;

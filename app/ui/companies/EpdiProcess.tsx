@@ -1,14 +1,15 @@
-"use client";
+'use client';
 
-import { updateCompanyEpdiCheckList } from "@/app/lib/actions";
-import { EpdiDetail } from "@/app/types/company";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { updateCompanyEpdiCheckList } from '@/app/lib/actions';
+import { EpdiDetail } from '@/app/types/company';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 interface EpdiProcessProps {
   companyName: string;
   mainName: string;
   subName: string;
+  isActive: boolean;
   detail: EpdiDetail[];
 }
 
@@ -16,6 +17,7 @@ export default function EpdiProcess({
   companyName,
   mainName,
   subName,
+  isActive,
   detail,
 }: EpdiProcessProps) {
   const [epdidetailCheckList, setEpdidetailCheckList] = useState(detail);
@@ -50,6 +52,7 @@ export default function EpdiProcess({
                 value={epdiDetail.content}
                 checked={epdiDetail.checked}
                 onChange={handleChangeCheckList}
+                disabled={!isActive}
               />
               {epdiDetail.content}
             </li>
