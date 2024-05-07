@@ -48,20 +48,30 @@ export default function EpdiProcess({
             <li key={epdiDetail.content}>
               <input
                 type="checkbox"
+                id={epdiDetail.content}
                 name={epdiDetail.content}
                 value={epdiDetail.content}
                 checked={epdiDetail.checked}
                 onChange={handleChangeCheckList}
                 disabled={!isActive}
+                className="mr-[5px] cursor-pointer"
               />
-              {epdiDetail.content}
+              <label
+                htmlFor={epdiDetail.content}
+                className={`cursor-pointer ${
+                  epdiDetail.checked ? "line-through" : "no-underline"
+                }`}
+              >
+                {epdiDetail.content}
+              </label>
             </li>
           ))}
         </ul>
         <input
           type="submit"
           value="완료"
-          className="w-[100px] h-[40px] mt-[40px] bg-green-400 rounded-md cursor-pointer"
+          className="w-[100px] h-[40px] mt-[40px] bg-green-400 rounded-md cursor-pointer
+          hover:bg-green-600"
         />
       </form>
     </li>

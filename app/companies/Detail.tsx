@@ -4,6 +4,7 @@ import EpdiMainItem from "../ui/button/EpdiMainItem";
 import { CompanyType } from "../types/company";
 import EpdiSubList from "../ui/companies/EpdiSubList";
 import { useState } from "react";
+import Link from "next/link";
 
 type EpdiMainItemClickEvent = {
   [key: string]: JSX.Element;
@@ -53,6 +54,9 @@ export default function Detail({ company }: { company: CompanyType | null }) {
   return (
     <div className="wrapper flex flex-col items-center">
       <div className="h-[150px] mt-[30px] flex-col items-center">
+        <Link href="/search" className="text-[24px]">
+          ⬅️
+        </Link>
         <h1 className="text-[24px] font-semibold">
           기업 환경성적표지인증 상세 정보
         </h1>
@@ -60,11 +64,12 @@ export default function Detail({ company }: { company: CompanyType | null }) {
           {decodeURI(company!.name)}
         </h2>
 
-        <ul className="w-[1000px] mt-[40px] flex items-center">
+        <ul className="w-[1000px] h-[50px] mt-[40px] flex items-center">
           {company?.mainProcess.map((processName) => (
             <EpdiMainItem
               key={processName}
               content={processName}
+              isActive={curEpdiMainItem === processName}
               onClick={() => setCurEpdiMainItem(processName)}
             />
           ))}

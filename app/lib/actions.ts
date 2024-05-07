@@ -75,6 +75,7 @@ export const updateCompanyEpdiCheckList = async (
       company.salesAndInfoStartUp.subProcess.every((sub) => sub.isPass);
 
     if (allCheckedEpdiSubProcesses) {
+      company.salesAndInfoStartUp.isPass = true;
       company.currentProcess =
         company.mainProcess[
           company.mainProcess.indexOf("영업 및 착수 안내") + 1
@@ -114,6 +115,7 @@ export const updateCompanyEpdiCheckList = async (
     );
 
     if (allCheckedEpdiSubProcesses) {
+      company.collectData.isPass = true;
       company.currentProcess =
         company.mainProcess[company.mainProcess.indexOf("데이터 수집") + 1];
       company.collectData.end = new Date(Date.now() + 1000 * 60 * 60 * 9);
@@ -148,6 +150,7 @@ export const updateCompanyEpdiCheckList = async (
       company.applyCertification.subProcess.every((sub) => sub.isPass);
 
     if (allCheckedEpdiSubProcesses) {
+      company.applyCertification.isPass = true;
       company.currentProcess =
         company.mainProcess[company.mainProcess.indexOf("인증서 신청") + 1];
       company.applyCertification.end = new Date(
@@ -181,6 +184,7 @@ export const updateCompanyEpdiCheckList = async (
     );
 
     if (allCheckedEpdiSubProcesses) {
+      company.audit.isPass = true;
       company.currentProcess =
         company.mainProcess[company.mainProcess.indexOf("심사") + 1];
       company.audit.end = new Date(Date.now() + 1000 * 60 * 60 * 9);
@@ -215,6 +219,7 @@ export const updateCompanyEpdiCheckList = async (
       company.issueCertification.subProcess.every((sub) => sub.isPass);
 
     if (allCheckedEpdiSubProcesses) {
+      company.issueCertification.isPass = true;
       company.issueCertification.end = new Date(
         Date.now() + 1000 * 60 * 60 * 9
       );

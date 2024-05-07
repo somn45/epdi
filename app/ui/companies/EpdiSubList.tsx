@@ -19,21 +19,22 @@ export default function EpdiSubList({
 
   return (
     <>
-      <div className="w-[300px] p-[20px] bg-slate-200 flex flex-col items-center">
+      <div className="w-[300px] py-[20px] bg-slate-200 flex flex-col items-center">
         <h1 className="text-[18px] font-semibold mb-[40px]">
           {mainItem?.name}
         </h1>
-        <ul>
+        <ul className="w-full">
           {mainItem?.subProcess.map((sub) => (
             <li
               key={sub.subName}
-              className={`mb-[20px] ${
-                sub.isPass ? "text-green-500 font-semibold" : "text-black"
-              }`}
+              className={`w-full h-full mb-[20px] flex justify-center items-center 
+              ${sub.isPass ? "text-green-500 font-semibold" : "text-black"}
+              ${curEpdiSubItem === sub.subName ? "bg-green-200" : ""}`}
             >
               <button
                 value={sub.subName}
                 onClick={() => setCurEpdiSubItem(sub.subName)}
+                className="w-1/2 h-1/2 text-[16px]"
               >
                 {sub.subName}
               </button>
