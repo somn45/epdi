@@ -11,3 +11,12 @@ export const fetchCompanies = async () => {
     console.log(error);
   }
 };
+
+export const fetchCompaniesOrderByLatest = async () => {
+  noStore();
+  const companies = await companyModel
+    .find()
+    .sort("-salesAndInfoStartUp.start")
+    .limit(5);
+  return companies;
+};
