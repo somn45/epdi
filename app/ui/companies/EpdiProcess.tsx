@@ -1,11 +1,16 @@
 "use client";
 
-import { addEpdiDetail, updateCompanyEpdiCheckList } from "@/app/lib/actions";
+import {
+  addEpdiDetail,
+  updateCompanyEpdiCheckList,
+  updateEpdiDetailContent,
+} from "@/app/lib/actions";
 import { EpdiDetail } from "@/app/types/company";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import UpdateDetailContent from "../modal/UpdateDetailContent";
 
-interface EpdiProcessProps {
+export interface EpdiProcessProps {
   companyName: string;
   mainName: string;
   subName: string;
@@ -21,6 +26,8 @@ export default function EpdiProcess({
   isActive,
 }: EpdiProcessProps) {
   const [epdidetailCheckList, setEpdidetailCheckList] = useState(detail);
+  const [showsUpdateDetailContent, setShowsUpdateDetailContent] =
+    useState(false);
 
   const handleChangeCheckList = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEpdidetailCheckList(
@@ -52,25 +59,54 @@ export default function EpdiProcess({
       <form action={updateCompanyEpdiDetail}>
         <ul>
           {epdidetailCheckList.map((epdiDetail) => (
-            <li key={epdiDetail.content}>
-              <input
-                type="checkbox"
-                id={epdiDetail.content}
-                name={epdiDetail.content}
-                value={epdiDetail.content}
-                checked={epdiDetail.checked}
-                onChange={handleChangeCheckList}
-                disabled={!isActive}
-                className="mr-[5px] cursor-pointer"
-              />
-              <label
-                htmlFor={epdiDetail.content}
-                className={`cursor-pointer ${
-                  epdiDetail.checked ? "line-through" : "no-underline"
-                }`}
-              >
-                {epdiDetail.content}
-              </label>
+            <li key={epdiDetail.content} className="flex justify-between">
+              <div>
+                <input
+                  type="checkbox"
+                  id={epdiDetail.content}
+                  name={epdiDetail.content}
+                  value={epdiDetail.content}
+                  checked={epdiDetail.checked}
+                  onChange={handleChangeCheckList}
+                  disabled={!isActive}
+                  className="mr-[5px] cursor-pointer"
+                />
+                <label
+                  htmlFor={epdiDetail.content}
+                  className={`cursor-pointer ${
+                    epdiDetail.checked ? "line-through" : "no-underline"
+                  }`}
+                >
+                  {epdiDetail.content}
+                </label>
+              </div>
+              <div className="flex">
+                <button
+                  disabled={!isActive}
+                  onClick={() => setShowsUpdateDetailContent(true)}
+                  className="px-[5px] cursor-pointer
+                 hover:scale-125 focus:scale-125"
+                >
+                  🖋️
+                </button>
+                <button
+                  disabled={!isActive}
+                  className="px-[5px] cursor-pointer
+                 hover:scale-125 focus:scale-125"
+                >
+                  ❌
+                </button>
+              </div>
+              {showsUpdateDetailContent && (
+                <UpdateDetailContent
+                  companyName={companyName}
+                  mainName={mainName}
+                  subName={subName}
+                  content={epdiDetail.content}
+                  detail={epdidetailCheckList}
+                  closeModal={() => setShowsUpdateDetailContent(false)}
+                />
+              )}
             </li>
           ))}
         </ul>

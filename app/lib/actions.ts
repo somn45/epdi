@@ -301,3 +301,22 @@ export const addEpdiDetail = async (formData: FormData) => {
 
   revalidatePath(`/companies/${name}`);
 };
+
+const updateEpdiDetailContentSchema = z.object({
+  name: z.string(),
+  mainItem: z.string(),
+  subName: z.string(),
+  content: z.string(),
+});
+
+const updateEpdiDetailContentForm = updateEpdiDetailContentSchema;
+
+export const updateEpdiDetailContent = async (
+  companyName: string,
+  mainItem: string,
+  subItem: string,
+  checklist: EpdiDetail[]
+) => {
+  console.log(companyName, mainItem, subItem, checklist);
+  const company = await companyModel.findOne({ name: companyName });
+};
