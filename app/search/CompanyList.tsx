@@ -13,6 +13,11 @@ export default function CompanyList({
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword");
 
+  console.log(companies);
+
+  if (!companies) {
+    return <div>등록된 기업이 없습니다.</div>;
+  }
   return (
     <ul className="mt-[40px]">
       <ComapanyListHeader />

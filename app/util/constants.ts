@@ -13,7 +13,6 @@ export const DEFAULT_EPDI_COMPANY = {
   ],
   salesAndInfoStartUp: {
     name: '영업 및 착수 안내',
-    value: 'salesAndInfoStartUp',
     isPass: false,
     start: new Date(Date.now() + 1000 * 60 * 60 * 9),
     subProcess: [
@@ -110,6 +109,96 @@ export const DEFAULT_EPDI_COMPANY = {
           },
           {
             content: '저탄소 데이터 수집',
+            checked: false,
+          },
+        ],
+      },
+    ],
+  },
+  applyCertification: {
+    name: '인증서 신청',
+    isPass: false,
+    subProcess: [
+      {
+        subName: '인증서 신청1',
+        isPass: false,
+        detail: [
+          {
+            content: '활동1',
+            checked: false,
+          },
+          {
+            content: '활동2',
+            checked: false,
+          },
+          {
+            content: '활동3',
+            checked: false,
+          },
+        ],
+      },
+      {
+        subName: '인증서 신청2',
+        isPass: false,
+        detail: [
+          {
+            content: '활동1',
+            checked: false,
+          },
+          {
+            content: '활동2',
+            checked: false,
+          },
+          {
+            content: '활동3',
+            checked: false,
+          },
+        ],
+      },
+    ],
+  },
+  audit: {
+    name: '심사',
+    isPass: false,
+    subProcess: [
+      {
+        subName: '심사1',
+        isPass: false,
+        detail: [
+          {
+            content: '활동1',
+            checked: false,
+          },
+          {
+            content: '활동2',
+            checked: false,
+          },
+          {
+            content: '활동3',
+            checked: false,
+          },
+        ],
+      },
+    ],
+  },
+  issueCertification: {
+    name: '인증서 발급',
+    isPass: false,
+    subProcess: [
+      {
+        subName: '인증서 발급1',
+        isPass: false,
+        detail: [
+          {
+            content: '활동1',
+            checked: false,
+          },
+          {
+            content: '활동2',
+            checked: false,
+          },
+          {
+            content: '활동3',
             checked: false,
           },
         ],
