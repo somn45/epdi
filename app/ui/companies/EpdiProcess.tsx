@@ -9,6 +9,7 @@ import { EpdiDetail } from '@/app/types/company';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import UpdateDetailContent from '../modal/UpdateDetailContent';
+import EpdiProcessItem from './EpdiProcessItem';
 
 export interface EpdiProcessProps {
   companyName: string;
@@ -25,15 +26,20 @@ export default function EpdiProcess({
   isActive,
   detail,
 }: EpdiProcessProps) {
-  const [epdidetailCheckList, setEpdidetailCheckList] = useState(detail);
+  const [epdidetailCheckList, setEpdidetailCheckList] =
+    useState<EpdiDetail[]>(detail);
   const [showsUpdateDetailContent, setShowsUpdateDetailContent] =
     useState(false);
 
   const handleChangeCheckList = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEpdidetailCheckList(
       epdidetailCheckList.map((checkItem) =>
-        checkItem.content === e.target.value
-          ? { content: checkItem.content, checked: !checkItem.checked }
+        checkItem._id === e.target.value
+          ? {
+              content: checkItem.content,
+              checked: !checkItem.checked,
+              _id: checkItem._id,
+            }
           : checkItem
       )
     );
@@ -51,68 +57,48 @@ export default function EpdiProcess({
     <li className="p-[30px] list-none">
       <form action={addEpdiDetail} className="mb-[30px]">
         <input type="text" name="content" />
-        <input type="text" name="name" value={companyName} hidden />
-        <input type="text" name="mainItem" value={mainName} hidden />
-        <input type="text" name="subName" value={subName} hidden />
-        <input type="submit" value="세부사항 추가" />
+        <input
+          type="text"
+          name="name"
+          value={companyName}
+          onChange={() => {}}
+          hidden
+        />
+        <input
+          type="text"
+          name="mainItem"
+          value={mainName}
+          onChange={() => {}}
+          hidden
+        />
+        <input
+          type="text"
+          name="subName"
+          value={subName}
+          onChange={() => {}}
+          hidden
+        />
+        <input type="submit" value="세부사항 추가" onChange={() => {}} />
       </form>
       <form action={updateCompanyEpdiDetail}>
         <ul>
           {epdidetailCheckList.map((epdiDetail) => (
-            <li key={epdiDetail.content} className="flex justify-between">
-              <div>
-                <input
-                  type="checkbox"
-                  id={epdiDetail.content}
-                  name={epdiDetail.content}
-                  value={epdiDetail.content}
-                  checked={epdiDetail.checked}
-                  onChange={handleChangeCheckList}
-                  disabled={!isActive}
-                  className="mr-[5px] cursor-pointer"
-                />
-                <label
-                  htmlFor={epdiDetail.content}
-                  className={`cursor-pointer ${
-                    epdiDetail.checked ? 'line-through' : 'no-underline'
-                  }`}
-                >
-                  {epdiDetail.content}
-                </label>
-              </div>
-              <div className="flex">
-                <button
-                  disabled={!isActive}
-                  onClick={() => setShowsUpdateDetailContent(true)}
-                  className="px-[5px] cursor-pointer
-                 hover:scale-125 focus:scale-125"
-                >
-                  🖋️
-                </button>
-                <button
-                  disabled={!isActive}
-                  className="px-[5px] cursor-pointer
-                 hover:scale-125 focus:scale-125"
-                >
-                  ❌
-                </button>
-              </div>
-              {showsUpdateDetailContent && (
-                <UpdateDetailContent
-                  companyName={companyName}
-                  mainName={mainName}
-                  subName={subName}
-                  content={epdiDetail.content}
-                  detail={epdidetailCheckList}
-                  closeModal={() => setShowsUpdateDetailContent(false)}
-                />
-              )}
-            </li>
+            <EpdiProcessItem
+              key={epdiDetail._id}
+              companyName={companyName}
+              mainName={mainName}
+              subName={subName}
+              epdiDetail={epdiDetail}
+              detailList={epdidetailCheckList}
+              isActive={isActive}
+              handleChangeCheckList={handleChangeCheckList}
+            />
           ))}
         </ul>
         <input
           type="submit"
           value="완료"
+          onChange={() => {}}
           className="w-[100px] h-[40px] mt-[40px] bg-green-400 rounded-md cursor-pointer
           hover:bg-green-600"
         />

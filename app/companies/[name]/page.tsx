@@ -1,12 +1,13 @@
 import getCompany from '@/util/get-company';
 import Detail from '../Detail';
-import { CompanyType } from '@/app/types/company';
+import { CompanyType, CompanyTypeWithId } from '@/app/types/company';
 import companyModel from '@/models/Company';
 import { fetchCompanies } from '@/app/lib/data';
 import { Suspense } from 'react';
 
 export async function generateStaticParams() {
-  const companies: CompanyType[] | undefined = await fetchCompanies();
+  const companies: CompanyTypeWithId[] | undefined = await fetchCompanies();
+  console.log(companies);
   return companies
     ? companies.map((company) => ({
         name: company.name,
@@ -19,7 +20,7 @@ export default async function CompanyDetail({
 }: {
   params: { name: string };
 }) {
-  const company: CompanyType | null = await getCompany(params.name);
+  const company: CompanyTypeWithId | null = await getCompany(params.name);
   return (
     <Suspense>
       <Detail company={company} />

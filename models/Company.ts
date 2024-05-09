@@ -14,12 +14,12 @@ interface DBCompany extends CompanyType {
 
 interface CompanyModel extends Model<DBCompany> {}
 
-interface DBSubProcess extends SubProcess {
-  _id: mongoose.Types.ObjectId;
+interface DBSubProcess extends Omit<SubProcess, '_id'> {
+  _id?: mongoose.Types.ObjectId;
 }
 
-interface DBDetailProcess extends EpdiDetail {
-  _id: mongoose.Types.ObjectId;
+interface DBDetailProcess extends Omit<EpdiDetail, '_id'> {
+  _id?: mongoose.Types.ObjectId;
 }
 
 mongoose.connect(
@@ -50,14 +50,6 @@ const companySchema = new Schema<DBCompany>({
   currentProcess: String,
   mainProcess: [String],
   salesAndInfoStartUp: {
-    name: String,
-    value: String,
-    isPass: Boolean,
-    start: Date,
-    end: Date,
-    subProcess: [subProcessSchema],
-  },
-  collectData: {
     name: String,
     value: String,
     isPass: Boolean,

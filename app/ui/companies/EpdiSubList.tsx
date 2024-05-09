@@ -26,7 +26,7 @@ export default function EpdiSubList({
         <ul className="w-full">
           {mainItem?.subProcess.map((sub) => (
             <li
-              key={sub.subName}
+              key={sub._id}
               className={`w-full h-[80px] mb-[20px] flex justify-center items-center 
               ${sub.isPass ? 'text-green-500 font-semibold' : 'text-black'}
               ${curEpdiSubItem === sub.subName ? 'bg-green-200' : ''}`}
@@ -47,7 +47,7 @@ export default function EpdiSubList({
           .filter((sub) => sub.subName === curEpdiSubItem)
           .map((sub) => (
             <EpdiProcess
-              key={sub.subName}
+              key={sub._id}
               companyName={companyName ? companyName : ''}
               mainName={mainItem.name}
               subName={sub.subName}

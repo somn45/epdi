@@ -1,13 +1,14 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import { addCompany, searchCompanies } from "../lib/actions";
+import { useEffect, useRef, useState } from 'react';
+import { addCompany, searchCompanies } from '../lib/actions';
 
 export default function AddCompanyModal({
   closeModal,
 }: {
   closeModal: () => void;
 }) {
+  const [companyName, setCompanyName] = useState('');
   const addCompanyModalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,9 +22,9 @@ export default function AddCompanyModal({
         closeModal();
     };
 
-    document.addEventListener("click", handleClickAddComapnyModalOut);
+    document.addEventListener('click', handleClickAddComapnyModalOut);
     return () => {
-      document.removeEventListener("click", handleClickAddComapnyModalOut);
+      document.removeEventListener('click', handleClickAddComapnyModalOut);
     };
   }, []);
 
@@ -42,6 +43,8 @@ export default function AddCompanyModal({
           <input
             type="text"
             name="name"
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
             placeholder="기업명"
             className="w-[320px] h-[40px] bg-green-200"
           />
@@ -52,6 +55,7 @@ export default function AddCompanyModal({
           <input
             type="submit"
             value="기업 추가"
+            onClick={() => {}}
             className="w-[100px] h-[40px] ml-[10px] 
             bg-slate-200 border-2 border-green-400 text-green-400 font-semibold
             hover:border-green-800 hover:text-green-700
