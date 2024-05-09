@@ -1,6 +1,6 @@
-import { EpdiMainItem } from '@/app/types/company';
-import { useState } from 'react';
-import EpdiProcess from './EpdiProcess';
+import { EpdiMainItem } from "@/app/types/company";
+import { useState } from "react";
+import EpdiProcess from "./EpdiProcess";
 
 interface EpdiSubListProps {
   companyName?: string;
@@ -28,8 +28,8 @@ export default function EpdiSubList({
             <li
               key={sub._id}
               className={`w-full h-[80px] mb-[20px] flex justify-center items-center 
-              ${sub.isPass ? 'text-green-500 font-semibold' : 'text-black'}
-              ${curEpdiSubItem === sub.subName ? 'bg-green-200' : ''}`}
+              ${sub.isPass ? "text-green-500 font-semibold" : "text-black"}
+              ${curEpdiSubItem === sub.subName ? "bg-green-200" : ""}`}
             >
               <button
                 value={sub.subName}
@@ -48,9 +48,10 @@ export default function EpdiSubList({
           .map((sub) => (
             <EpdiProcess
               key={sub._id}
-              companyName={companyName ? companyName : ''}
+              companyName={companyName ? companyName : ""}
               mainName={mainItem.name}
               subName={sub.subName}
+              subId={sub._id}
               detail={sub.detail}
               isActive={isActive}
             />

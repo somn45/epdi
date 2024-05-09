@@ -1,20 +1,21 @@
-'use client';
+"use client";
 
 import {
   addEpdiDetail,
   updateCompanyEpdiCheckList,
   updateEpdiDetailContent,
-} from '@/app/lib/actions';
-import { EpdiDetail } from '@/app/types/company';
-import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import UpdateDetailContent from '../modal/UpdateDetailContent';
-import EpdiProcessItem from './EpdiProcessItem';
+} from "@/app/lib/actions";
+import { EpdiDetail } from "@/app/types/company";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import UpdateDetailContent from "../modal/UpdateDetailContent";
+import EpdiProcessItem from "./EpdiProcessItem";
 
 export interface EpdiProcessProps {
   companyName: string;
   mainName: string;
   subName: string;
+  subId?: string;
   isActive: boolean;
   detail: EpdiDetail[];
 }
@@ -23,6 +24,7 @@ export default function EpdiProcess({
   companyName,
   mainName,
   subName,
+  subId,
   isActive,
   detail,
 }: EpdiProcessProps) {
@@ -88,6 +90,7 @@ export default function EpdiProcess({
               companyName={companyName}
               mainName={mainName}
               subName={subName}
+              subId={subId}
               epdiDetail={epdiDetail}
               detailList={epdidetailCheckList}
               isActive={isActive}

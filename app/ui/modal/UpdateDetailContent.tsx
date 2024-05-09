@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import { EpdiProcessProps } from '../companies/EpdiProcess';
-import { updateEpdiDetailContent } from '@/app/lib/actions';
-import { EpdiDetail } from '@/app/types/company';
+import { useEffect, useRef, useState } from "react";
+import { EpdiProcessProps } from "../companies/EpdiProcess";
+import { updateEpdiDetailContent } from "@/app/lib/actions";
+import { EpdiDetail } from "@/app/types/company";
+import { redirect } from "next/dist/server/api-utils";
 
-interface Modal extends Omit<EpdiProcessProps, 'isActive'> {
+interface Modal extends Omit<EpdiProcessProps, "isActive"> {
   content: EpdiDetail;
+  subId?: string;
   closeModal: () => void;
 }
 
@@ -12,14 +14,13 @@ export default function UpdateDetailContent({
   companyName,
   mainName,
   subName,
+  subId,
   detail,
   content,
   closeModal,
 }: Modal) {
   const updateDetailContentRef = useRef<HTMLDivElement>(null);
   const [newContent, setNewContent] = useState(content.content);
-
-  console.log(content, content.content);
 
   const handleUpdateContent = async (
     e: React.MouseEvent<HTMLButtonElement>
@@ -31,8 +32,7 @@ export default function UpdateDetailContent({
         ? { ...detail, content: newContent }
         : { ...detail };
     });
-    console.log(newCheckList);
-    await updateEpdiDetailContent(companyName, mainName, subName, detail);
+    await updateEpdiDetailContent(companyName, mainName, subName, newCheckList);
   };
 
   return (

@@ -1,11 +1,12 @@
-'use server';
+"use server";
 
-import companyModel from '@/models/Company';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import z from 'zod';
-import { DEFAULT_EPDI_COMPANY } from '../util/constants';
-import { EpdiDetail, EpdiMainItem } from '../types/company';
+import companyModel, { DBSubProcess } from "@/models/Company";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import z from "zod";
+import { DEFAULT_EPDI_COMPANY } from "../util/constants";
+import { EpdiDetail, EpdiMainItem } from "../types/company";
+import { Types } from "mongoose";
 
 const addCompanyFormSchema = z.object({
   name: z.string(),
@@ -16,8 +17,8 @@ const AddCompany = addCompanyFormSchema;
 
 export const addCompany = async (formData: FormData) => {
   const { name, authExpiresIn } = AddCompany.parse({
-    name: formData.get('name'),
-    authExpiresIn: formData.get('authExpiresIn'),
+    name: formData.get("name"),
+    authExpiresIn: formData.get("authExpiresIn"),
   });
 
   await companyModel.create({
@@ -26,8 +27,8 @@ export const addCompany = async (formData: FormData) => {
     authExpiresIn: new Date(authExpiresIn),
   });
 
-  revalidatePath('/search');
-  redirect('/search');
+  revalidatePath("/search");
+  redirect("/search");
 };
 
 const searchFormSchema = z.object({
@@ -38,7 +39,7 @@ const SearchForm = searchFormSchema;
 
 export const searchCompanies = async (formData: FormData) => {
   const { keyword } = SearchForm.parse({
-    keyword: formData.get('keyword'),
+    keyword: formData.get("keyword"),
   });
 
   const encodedKeyword = encodeURI(keyword);
@@ -55,7 +56,7 @@ export const updateCompanyEpdiCheckList = async (
   try {
     const company = await companyModel.findOne({ name: companyName });
 
-    if (company && mainItem === '영업 및 착수 안내') {
+    if (company && mainItem === "영업 및 착수 안내") {
       // 3차 단계 체크 리스트 업데이트
       company.salesAndInfoStartUp.subProcess =
         company.salesAndInfoStartUp.subProcess.map((sub) => {
@@ -83,7 +84,7 @@ export const updateCompanyEpdiCheckList = async (
         company.salesAndInfoStartUp.isPass = true;
         company.currentProcess =
           company.mainProcess[
-            company.mainProcess.indexOf('영업 및 착수 안내') + 1
+            company.mainProcess.indexOf("영업 및 착수 안내") + 1
           ];
         company.salesAndInfoStartUp.end = new Date(
           Date.now() + 1000 * 60 * 60 * 9
@@ -92,7 +93,7 @@ export const updateCompanyEpdiCheckList = async (
       }
     }
 
-    if (company && mainItem === '데이터 수집') {
+    if (company && mainItem === "데이터 수집") {
       // 3차 단계 체크 리스트 업데이트
       company.collectData.subProcess = company.collectData.subProcess.map(
         (sub) => {
@@ -122,7 +123,7 @@ export const updateCompanyEpdiCheckList = async (
       if (allCheckedEpdiSubProcesses) {
         company.collectData.isPass = true;
         company.currentProcess =
-          company.mainProcess[company.mainProcess.indexOf('데이터 수집') + 1];
+          company.mainProcess[company.mainProcess.indexOf("데이터 수집") + 1];
         company.collectData.end = new Date(Date.now() + 1000 * 60 * 60 * 9);
         company.applyCertification.start = new Date(
           Date.now() + 1000 * 60 * 60 * 9
@@ -130,7 +131,7 @@ export const updateCompanyEpdiCheckList = async (
       }
     }
 
-    if (company && mainItem === '인증서 신청') {
+    if (company && mainItem === "인증서 신청") {
       // 3차 단계 체크 리스트 업데이트
       company.applyCertification.subProcess =
         company.applyCertification.subProcess.map((sub) => {
@@ -157,7 +158,7 @@ export const updateCompanyEpdiCheckList = async (
       if (allCheckedEpdiSubProcesses) {
         company.applyCertification.isPass = true;
         company.currentProcess =
-          company.mainProcess[company.mainProcess.indexOf('인증서 신청') + 1];
+          company.mainProcess[company.mainProcess.indexOf("인증서 신청") + 1];
         company.applyCertification.end = new Date(
           Date.now() + 1000 * 60 * 60 * 9
         );
@@ -165,7 +166,7 @@ export const updateCompanyEpdiCheckList = async (
       }
     }
 
-    if (company && mainItem === '심사') {
+    if (company && mainItem === "심사") {
       // 3차 단계 체크 리스트 업데이트
       company.audit.subProcess = company.audit.subProcess.map((sub) => {
         return sub.subName === subItem
@@ -191,7 +192,7 @@ export const updateCompanyEpdiCheckList = async (
       if (allCheckedEpdiSubProcesses) {
         company.audit.isPass = true;
         company.currentProcess =
-          company.mainProcess[company.mainProcess.indexOf('심사') + 1];
+          company.mainProcess[company.mainProcess.indexOf("심사") + 1];
         company.audit.end = new Date(Date.now() + 1000 * 60 * 60 * 9);
         company.issueCertification.start = new Date(
           Date.now() + 1000 * 60 * 60 * 9
@@ -199,7 +200,7 @@ export const updateCompanyEpdiCheckList = async (
       }
     }
 
-    if (company && mainItem === '인증서 발급') {
+    if (company && mainItem === "인증서 발급") {
       // 3차 단계 체크 리스트 업데이트
       company.issueCertification.subProcess =
         company.issueCertification.subProcess.map((sub) => {
@@ -254,15 +255,15 @@ const addEpdiDetailForm = addEpdiDetailSchema;
 
 export const addEpdiDetail = async (formData: FormData) => {
   const { name, mainItem, subName, content } = addEpdiDetailForm.parse({
-    name: formData.get('name'),
-    mainItem: formData.get('mainItem'),
-    subName: formData.get('subName'),
-    content: formData.get('content'),
+    name: formData.get("name"),
+    mainItem: formData.get("mainItem"),
+    subName: formData.get("subName"),
+    content: formData.get("content"),
   });
 
   const company = await companyModel.findOne({ name });
 
-  if (company && mainItem === '영업 및 착수 안내') {
+  if (company && mainItem === "영업 및 착수 안내") {
     company.salesAndInfoStartUp.subProcess =
       company?.salesAndInfoStartUp.subProcess.map((sub) =>
         sub.subName === subName
@@ -270,7 +271,7 @@ export const addEpdiDetail = async (formData: FormData) => {
           : { ...sub }
       );
   }
-  if (company && mainItem === '데이터 수집') {
+  if (company && mainItem === "데이터 수집") {
     company.collectData.subProcess = company?.collectData.subProcess.map(
       (sub) =>
         sub.subName === subName
@@ -278,7 +279,7 @@ export const addEpdiDetail = async (formData: FormData) => {
           : { ...sub }
     );
   }
-  if (company && mainItem === '인증서 신청') {
+  if (company && mainItem === "인증서 신청") {
     company.applyCertification.subProcess =
       company?.applyCertification.subProcess.map((sub) =>
         sub.subName === subName
@@ -286,14 +287,14 @@ export const addEpdiDetail = async (formData: FormData) => {
           : { ...sub }
       );
   }
-  if (company && mainItem === '심사') {
+  if (company && mainItem === "심사") {
     company.audit.subProcess = company?.audit.subProcess.map((sub) =>
       sub.subName === subName
         ? { ...sub, detail: [...sub.detail, { content, checked: false }] }
         : { ...sub }
     );
   }
-  if (company && mainItem === '인증서 발급') {
+  if (company && mainItem === "인증서 발급") {
     company.issueCertification.subProcess =
       company?.issueCertification.subProcess.map((sub) =>
         sub.subName === subName
@@ -307,21 +308,126 @@ export const addEpdiDetail = async (formData: FormData) => {
   revalidatePath(`/companies/${name}`);
 };
 
-const updateEpdiDetailContentSchema = z.object({
-  name: z.string(),
-  mainItem: z.string(),
-  subName: z.string(),
-  content: z.string(),
-});
-
-const updateEpdiDetailContentForm = updateEpdiDetailContentSchema;
-
 export const updateEpdiDetailContent = async (
   companyName: string,
   mainItem: string,
   subItem: string,
   checklist: EpdiDetail[]
 ) => {
-  console.log(companyName, mainItem, subItem, checklist);
-  const company = await companyModel.findOne({ name: companyName });
+  try {
+    const company = await companyModel.findOne({ name: companyName });
+
+    if (company && mainItem === "영업 및 착수 안내") {
+      company.salesAndInfoStartUp.subProcess =
+        company.salesAndInfoStartUp.subProcess.map((sub) => {
+          return sub.subName === subItem
+            ? { ...sub, detail: [...checklist] }
+            : { ...sub };
+        });
+    }
+
+    if (company && mainItem === "데이터 수집") {
+      company.collectData.subProcess = company.collectData.subProcess.map(
+        (sub) => {
+          return sub.subName === subItem
+            ? { ...sub, detail: [...checklist] }
+            : { ...sub };
+        }
+      );
+    }
+
+    if (company && mainItem === "데이터 수집") {
+      company.applyCertification.subProcess =
+        company.applyCertification.subProcess.map((sub) => {
+          return sub.subName === subItem
+            ? { ...sub, detail: [...checklist] }
+            : { ...sub };
+        });
+    }
+
+    if (company && mainItem === "데이터 수집") {
+      company.audit.subProcess = company.audit.subProcess.map((sub) => {
+        return sub.subName === subItem
+          ? { ...sub, detail: [...checklist] }
+          : { ...sub };
+      });
+    }
+
+    if (company && mainItem === "데이터 수집") {
+      company.issueCertification.subProcess =
+        company.issueCertification.subProcess.map((sub) => {
+          return sub.subName === subItem
+            ? { ...sub, detail: [...checklist] }
+            : { ...sub };
+        });
+    }
+
+    await company?.save();
+
+    revalidatePath(`/companies/${decodeURI(companyName)}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteEpdiDetailContent = async (
+  companyName: string,
+  mainItem: string,
+  subItem: string,
+  checklist: EpdiDetail[]
+) => {
+  try {
+    const company = await companyModel.findOne({ name: companyName });
+
+    if (company && mainItem === "영업 및 착수 안내") {
+      company.salesAndInfoStartUp.subProcess =
+        company.salesAndInfoStartUp.subProcess.map((sub) => {
+          return sub.subName === subItem
+            ? { ...sub, detail: [...checklist] }
+            : { ...sub };
+        });
+    }
+
+    if (company && mainItem === "데이터 수집") {
+      company.collectData.subProcess = company.collectData.subProcess.map(
+        (sub) => {
+          return sub.subName === subItem
+            ? { ...sub, detail: [...checklist] }
+            : { ...sub };
+        }
+      );
+    }
+
+    if (company && mainItem === "데이터 수집") {
+      company.applyCertification.subProcess =
+        company.applyCertification.subProcess.map((sub) => {
+          return sub.subName === subItem
+            ? { ...sub, detail: [...checklist] }
+            : { ...sub };
+        });
+    }
+
+    if (company && mainItem === "데이터 수집") {
+      company.audit.subProcess = company.audit.subProcess.map((sub) => {
+        return sub.subName === subItem
+          ? { ...sub, detail: [...checklist] }
+          : { ...sub };
+      });
+    }
+
+    if (company && mainItem === "데이터 수집") {
+      company.issueCertification.subProcess =
+        company.issueCertification.subProcess.map((sub) => {
+          return sub.subName === subItem
+            ? { ...sub, detail: [...checklist] }
+            : { ...sub };
+        });
+    }
+
+    await company?.save();
+
+    revalidatePath(`/companies/${decodeURI(companyName)}`);
+  } catch (error) {
+    console.log(error);
+  }
 };

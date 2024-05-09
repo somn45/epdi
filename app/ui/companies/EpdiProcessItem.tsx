@@ -1,11 +1,13 @@
-import { EpdiDetail } from '@/app/types/company';
-import { useState } from 'react';
-import UpdateDetailContent from '../modal/UpdateDetailContent';
+import { EpdiDetail } from "@/app/types/company";
+import React, { useState } from "react";
+import UpdateDetailContent from "../modal/UpdateDetailContent";
+import { deleteEpdiDetailContent } from "@/app/lib/actions";
 
 interface EpdiProcessItemProps {
   companyName: string;
   mainName: string;
   subName: string;
+  subId?: string;
   epdiDetail: EpdiDetail;
   detailList: EpdiDetail[];
   isActive: boolean;
@@ -16,6 +18,7 @@ export default function EpdiProcessItem({
   companyName,
   mainName,
   subName,
+  subId,
   epdiDetail,
   detailList,
   isActive,
@@ -23,6 +26,16 @@ export default function EpdiProcessItem({
 }: EpdiProcessItemProps) {
   const [showsUpdateDetailContent, setShowsUpdateDetailContent] =
     useState(false);
+
+  const handleDeleteEpdiDetail = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    const newCheckList = detailList.filter((detail) => {
+      return detail._id !== epdiDetail._id ? true : false;
+    });
+    await deleteEpdiDetailContent(companyName, mainName, subName, newCheckList);
+  };
 
   return (
     <li key={epdiDetail._id} className="flex justify-between">
@@ -32,6 +45,7 @@ export default function EpdiProcessItem({
           companyName={companyName}
           mainName={mainName}
           subName={subName}
+          subId={subId}
           detail={detailList}
           content={epdiDetail}
           closeModal={() => setShowsUpdateDetailContent(false)}
@@ -51,7 +65,7 @@ export default function EpdiProcessItem({
         <label
           htmlFor={epdiDetail.content}
           className={`cursor-pointer ${
-            epdiDetail.checked ? 'line-through' : 'no-underline'
+            epdiDetail.checked ? "line-through" : "no-underline"
           }`}
         >
           {epdiDetail.content}
@@ -67,6 +81,7 @@ export default function EpdiProcessItem({
           🖋️
         </button>
         <button
+          onClick={handleDeleteEpdiDetail}
           disabled={!isActive}
           className="px-[5px] cursor-pointer
       hover:scale-125 focus:scale-125"
