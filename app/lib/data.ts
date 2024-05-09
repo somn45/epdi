@@ -1,6 +1,6 @@
-import { unstable_noStore as noStore } from 'next/cache';
-import connectDB from '@/config/connectDB';
-import companyModel from '@/models/Company';
+import { unstable_noStore as noStore } from "next/cache";
+import connectDB from "@/config/connectDB";
+import companyModel from "@/models/Company";
 
 export const fetchCompanies = async () => {
   noStore();
@@ -16,7 +16,7 @@ export const fetchCompaniesOrderByLatest = async () => {
   noStore();
   const companies = await companyModel
     .find()
-    .sort('-salesAndInfoStartUp.start')
-    .limit(5);
+    .sort("-salesAndInfoStartUp.start")
+    .limit(9);
   return companies;
 };

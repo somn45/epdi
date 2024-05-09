@@ -23,7 +23,7 @@ export default async function Home() {
           <h5 className="text-[20px] font-semibold">
             인증 만료 기업 목록으로 이동
           </h5>
-          <Link href="/search" className="text-[20px]">
+          <Link href="/calendar" className="text-[20px]">
             ➡️
           </Link>
         </div>
